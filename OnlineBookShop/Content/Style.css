@@ -1,0 +1,15 @@
+﻿
+body {
+    padding: 0px;
+}
+img {
+    width: 140px;
+    height: 160px;
+}
+.logo{
+    font-size: 30px;
+}
+.ebook {
+    margin-top: 20px;
+    width:auto;
+}

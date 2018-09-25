@@ -1,0 +1,160 @@
+﻿
+@using OnlineBookShop.Core.Models
+@{
+    ViewBag.Title = "BookDetail";
+    var book = (Book)ViewBag.Book;
+}
+<style>
+    p {
+        padding: 10px;
+        margin: 10px;
+    }
+
+    span {
+        font-size: 12px;
+        display: inline;
+    }
+
+    h3 {
+        margin: 1em;
+    }
+
+    .panel {
+        background-color: #f4f4f4;
+    }
+
+    .panel-body {
+        background-color: #FFF;
+    }
+</style>
+<div class="panel">
+    <div class="row panel-body">
+        <div class="col-md-6 col-xs-6 col-sm-6">
+            <a href="@book.Link/@book.Name.Replace(' ', '-')" class="thumbnail">
+                <img src="~/Content/BookImage/@book.Image.Replace('-',' ')" alt="@book.Name" />
+            </a>
+        </div>
+        <div class="col-md-6 col-xs-6 col-sm-6">
+            <div class="panel">
+                <div class="row panel-body">
+                    <h3>@book.Name</h3>
+                    <div class="form-group">
+                        <label>Giá</label>
+                        <h4 class="text-danger">@book.Price đ</h4>
+                        <label> Số lượng </label>
+                        <div class="form-group">
+                            <span class="fa-truck"></span>
+                            <p>Giao hàng tiêu chuẩn Dự kiến giao Thứ hai - Thứ ba, 24/09 - 25/09 chi phí 12.000 ₫, miễn phí giao hàng tiêu chuẩn cho đơn hàng từ 150.000 đ</p>
+                        </div>
+                        <div class="form-group">
+                            <span class="fa-gift"></span>
+                            <p>
+                                Bạn muốn gói quà và gửi thiệp? Hãy chọn hình thức gói quà ở bước thanh toán, Tiki sẽ thực hiện gói quà và in thiệp với thông điệp riêng của bạn! -<a href="#"> Xem chi tiết</a>
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <h4>DỊCH VỤ & KHUYẾN MÃI LIÊN QUAN</h4>
+                            <p>
+                                Đăng ký dịch vụ BookCare để được bọc plastic đến 99% sách tại Tiki.vn
+                                Sản phẩm có thể được giao trong vòng 2 tiếng đến các quận/huyện nội thành tại TP Hồ Chí Minh và Hà Nội khi đặt hàng cùng với các sản phẩm hỗ trợ Giao Hàng 2 Tiếng khác (bao gồm dịch vụ BookCare). Chi tiết
+                                Xem thêm sách truyện của Philip Kotler tại Tiki.vn
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn" style="width: 60px;">-</button>
+                            <input min="0" class="form" style="width: 50px;" />
+                            <button class="btn" style="width: 60px;">+</button>
+                            <button class="btn btn-danger">Chọn mua</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel panel-heading">
+            <h3>THÔNG TIN CHI TIẾT</h3>
+        </div>
+        <div class="panel panel-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>Công ty phát hành</td>
+                        <td>@book.Company</td>
+                    </tr>
+                    <tr>
+                        <td>Tác giả</td>
+                        <td>@book.Author</td>
+                    </tr>
+                    <tr>
+                        <td>Ngày xuất bản</td>
+                        <td>@book.PublishDay</td>
+                    </tr>
+                    <tr>
+                        <td>Kích thước</td>
+                        <td>@book.Size</td>
+                    </tr>
+                    <tr>
+                        <td>Nhà xuất bản</td>
+                        <td>@book.Publisher</td>
+                    </tr>
+                    <tr>
+                        <td>Loại bìa</td>
+                        <td>@book.CoverType</td>
+                    </tr>
+                    <tr>
+                        <td>Số trang</td>
+                        <td>@book.PageNum</td>
+                    </tr>
+                    <tr>
+                        <td>SKU</td>
+                        <td>@book.SKU</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel panel-heading">
+            <h3>GIỚI THIỆU SÁCH</h3>
+        </div>
+        <div class="panel panel-body">
+            <h4> @book.Name</h4>
+            <br />
+            <p>
+                @book.Description
+            </p>
+        </div>
+        <div class="panel">
+            <div class="panel-heading"><h3> Sách cùng tác giả</h3></div>
+            <div class="panel-body">
+                @{
+                    var list = (List<Book>)ViewBag.SameAuthorBook;
+                    foreach (var item in list)
+                    {
+                        <div class="col-xs-6 col-md-3 col-sm-3 ebook">
+                            <a href="@item.Link/@item.Name.Replace(' ', '-')" class="thumbnail">
+                                <img src="~/Content/BookImage/@item.Image.Replace('-',' ')" class="img-rounded" alt="Alternate Text" />
+                            </a>
+                            <h5 class="text-center">
+                                <a href="@item.Link/@item.Name.Replace(' ', '-')">@item.Name</a>
+                            </h5>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+                //$(document).ready(function () {
+                //    $('#btnIncrese').on('click', function () {
+                //        var input = $('#inputQuantity');
+                //        input.val = input.val + 1;
+                //    })
+                //    $('#btnDecrease').on('click', function () {
+                //        var input = $('#inputQuantity');
+                //        input.val = input.val - 1;
+                //    })
+                //})
+</script>

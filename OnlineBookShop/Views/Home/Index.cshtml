@@ -1,0 +1,25 @@
+﻿@using OnlineBookShop.Core.Models
+@{
+    ViewBag.Title = "Index";
+}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Kinh Tế - Quản Lý
+    </div>
+    <div class="panel-body">
+        @{
+            var list = (List<Book>)ViewBag.BookList;
+            foreach (var item in list)
+            {
+                <div class="col-xs-6 col-md-3 col-sm-3 ebook">
+                    <a href="@item.Link/@item.Name.Replace(' ', '-')" class="thumbnail">
+                        <img src="~/Content/BookImage/@item.Image.Replace('-',' ')" class="img-rounded" alt="Alternate Text" />
+                    </a>
+                    <h5 class="text-center">
+                        <a href="@item.Link/@item.Name.Replace(' ', '-')">@item.Name</a>
+                    </h5>
+                </div>
+            }
+        }
+    </div>
+</div>
