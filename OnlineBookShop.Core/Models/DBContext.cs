@@ -12,6 +12,7 @@ namespace OnlineBookShop.Core.Models
         {
         }
 
+        public virtual DbSet<ActivityLog> ActivityLogs { get; set; }
         public virtual DbSet<AdminAccount> AdminAccounts { get; set; }
         public virtual DbSet<Book> Books { get; set; }
 

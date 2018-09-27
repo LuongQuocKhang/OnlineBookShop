@@ -22,8 +22,8 @@
             <th scope="col">Book Name</th>
             <th scope="col">Link</th>
             <th scope="col">Author</th>
-            <th scope="col">Price</th>
             <th scope="col">IsDeleted</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -39,7 +39,7 @@
             <td> @item.Author</td>
             <td> @item.isDeleted</td>
             <td>
-                <a class="btn btn-success" href="#">Update</a>
+                <a class="btn btn-success" href="@Url.Action("Update","Admin",new { bookid = item.BookId.Trim()})">Update</a>
                 @if (item.isDeleted == false)
                 {
                     <a class="btn btn-danger" name="@item.BookId" href="@Url.Action("Delete","Admin",new { bookid = item.BookId.Trim()})">Delete</a>

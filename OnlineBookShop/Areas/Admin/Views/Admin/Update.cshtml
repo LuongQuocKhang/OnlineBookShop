@@ -1,0 +1,92 @@
+﻿@using System.Globalization;
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var book = (OnlineBookShop.Core.Models.Book)ViewBag.SelectedBook;
+}
+<h2>Update form</h2>
+<form method="post">
+    <div class="form-group">
+        <input type="hidden" name="BookId" value="@book.BookId" />
+    </div>
+    <div class="form-group">
+        <label> BookName </label>
+        <input class="form-control" type="text" id="Namw" name="Name" value="@book.Name" />
+    </div>
+    <div class="form-group">
+        <label> SKU </label>
+        <input class="form-control" type="text" id="SKU" name="SKU" value="@book.SKU" />
+    </div>
+    <div class="form-group">
+        <label> Link </label>
+        <input class="form-control" type="text" id="Link" name="Link" value="@Request.Url.GetLeftPart(UriPartial.Authority)@book.Link" />
+    </div>
+    <div class="form-group">
+        <label> Company </label>
+        <input class="form-control" type="text" id="Company" name="Company" value="@book.Company" />
+    </div>
+    <div class="form-group">
+        <label> Author </label>
+        <input class="form-control" type="text" id="Author" name="Author" value="@book.Author" />
+    </div>
+    <div class="form-group">
+        <label> PublishDay </label>
+        <div class="input-group date margin-bottom-5 date-picker" data-date-format="dd/mm/yyyy">
+            <input if ( @book.PublishDay !=null) { @Html.Raw("value='" + HttpUtility.HtmlEncode(book.PublishDay.Value.ToString("MM/dd/yyyy")) + "'") }
+                   type="text" class="form-control form-filter input-sm" name="PublishDay" id="PublishDay" placeholder="" value="">
+            <span class="input-group-btn">
+                <button class="btn btn-sm default form-control" type="button">
+                    <i class="fa fa-calendar"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label> Publisher </label>
+        <input class="form-control" type="text" id="Publisher" name="Publisher" value="@book.Publisher" />
+    </div>
+    <div class="form-group">
+        <label> CoverType </label>
+        <input class="form-control" type="text" id="CoverType" name="CoverType" value="@book.CoverType" />
+    </div>
+    <div class="form-group">
+        <label> Price </label>
+        <input class="form-control" type="text" id="Price" name="Price" value="@book.Price" />
+    </div>
+    <div class="form-group">
+        <label> PageNum </label>
+        <input class="form-control" type="text" id="PageNum" name="PageNum" value="@book.PageNum" />
+    </div>
+    <div class="form-group">
+        <label> Quantity </label>
+        <input class="form-control" type="text" id="Quantity" name="Quantity" value="@book.Quantity" />
+    </div>
+    <div class="form-group">
+        <label> Status </label>
+        <input class="form-control" type="text" id="status" name="status" value="@book.status" />
+    </div>
+    <div class="form-group">
+        <label> Size </label>
+        <input class="form-control" type="text" id="Size" name="Size" value="@book.Size" />
+    </div>
+    <div class="form-group">
+        <label> Desription </label>
+        <textarea class="form-control rounded-0" id="Description" name="Description" rows="8">
+            @book.Description
+        </textarea>
+    </div>
+    <div class="form-group">
+        <label> Catagory </label>
+        <input class="form-control" type="text" id="Catagory" name="Catagory" value="@book.Catagory" />
+    </div>
+    <button class="btn btn-success" type="submit">Submit</button>
+</form>
+@Scripts.Render("~/bundles/jquery")
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+<script>
+    $('.date-picker').datepicker({
+        autoclose: true
+    });
+</script>
+
+

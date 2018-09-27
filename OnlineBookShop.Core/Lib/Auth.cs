@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace OnlineBookShop.Core.Lib
 {
@@ -24,6 +25,14 @@ namespace OnlineBookShop.Core.Lib
                 var user = db.AdminAccounts.FirstOrDefault(x => x.AdminName == UserName && x.AdminPassword == Password);
                 return user != null;
             }
+        }
+        public UserLogin GetCurrentUser()
+        {
+            if (HttpContext.Current.Session[Constants.USER_SESSION] == null)
+            {
+                throw new Exception("User is not defined");
+            }
+            return (UserLogin)HttpContext.Current.Session[Constants.USER_SESSION];
         }
     }
 }
