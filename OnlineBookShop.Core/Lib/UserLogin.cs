@@ -10,6 +10,11 @@ namespace OnlineBookShop.Core.Lib
     public class UserLogin
     {
         public UserLogin() { }
+        public UserLogin(string username,int id)
+        {
+            UserName = username;
+            UserId = id;
+        }
         public UserLogin(AdminAccount account)
         {
             UserName = account.AdminName;

@@ -8,6 +8,7 @@ namespace OnlineBookShop.Core
 {
     public static class Constants
     {
+        public static string ADMIN_SESSION = "ADMIN_SESSION";
         public static string USER_SESSION = "USER_SESSION";
     }
 }

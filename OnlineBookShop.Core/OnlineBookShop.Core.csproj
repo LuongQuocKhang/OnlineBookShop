@@ -55,14 +55,18 @@
     <Compile Include="Lib\Constants.cs" />
     <Compile Include="Lib\Auth.cs" />
     <Compile Include="Lib\CoreApp.cs" />
+    <Compile Include="Lib\UploadImage.cs" />
     <Compile Include="Lib\UserLogin.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ActivityLog.cs" />
     <Compile Include="Models\AdminAccount.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\CartDetails.cs" />
     <Compile Include="Models\DBContext.cs" />
+    <Compile Include="Models\UserAcount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

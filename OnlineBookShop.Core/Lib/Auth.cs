@@ -26,13 +26,21 @@ namespace OnlineBookShop.Core.Lib
                 return user != null;
             }
         }
+        public bool Login_user(string UserName, string Password)
+        {
+            using (var db = new DBContext())
+            {
+                var user = db.UserAcount.FirstOrDefault(x => x.Email == UserName && x.Password == Password);
+                return user != null;
+            }
+        }
         public UserLogin GetCurrentUser()
         {
-            if (HttpContext.Current.Session[Constants.USER_SESSION] == null)
+            if (HttpContext.Current.Session[Constants.ADMIN_SESSION] == null)
             {
                 throw new Exception("User is not defined");
             }
-            return (UserLogin)HttpContext.Current.Session[Constants.USER_SESSION];
+            return (UserLogin)HttpContext.Current.Session[Constants.ADMIN_SESSION];
         }
     }
 }

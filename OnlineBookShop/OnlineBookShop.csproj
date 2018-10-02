@@ -157,6 +157,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BookController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1662,9 +1664,10 @@
     <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\login.cshtml" />
-    <None Include="Areas\Admin\Views\Admin\BookManagement.cshtml" />
-    <Content Include="Areas\Admin\Views\Admin\Form.cshtml" />
-    <Content Include="Areas\Admin\Views\Admin\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Book\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Book\Form.cshtml" />
+    <Content Include="Areas\Admin\Views\Book\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Book\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1689,6 +1692,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Info\BookDetails.cshtml" />
+    <Content Include="Views\Cart\Cart.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

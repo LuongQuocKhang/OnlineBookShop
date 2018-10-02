@@ -15,6 +15,9 @@ namespace OnlineBookShop.Core.Models
         public virtual DbSet<ActivityLog> ActivityLogs { get; set; }
         public virtual DbSet<AdminAccount> AdminAccounts { get; set; }
         public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<Cart> Cart { get; set; }
+        public virtual DbSet<CartDetails> CartDetail { get; set; }
+        public virtual DbSet<UserAcount> UserAcount { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

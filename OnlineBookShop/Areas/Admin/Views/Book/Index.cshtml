@@ -1,0 +1,78 @@
+﻿@using OnlineBookShop.Core.Models
+@{
+    ViewBag.Title = "BookManagement";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    var list = (List<Book>)ViewBag.BookList;
+}
+<style>
+    img {
+        width: 80px;
+        height: 80px;
+    }
+
+    a {
+        margin: 0.5px;
+    }
+    table{
+        margin: 5px;
+    }
+</style>
+@{
+    if (null != Session["submit_message"])
+    {
+        @Html.Raw("<h3 class='error-mesage' style='display: none;'>" + Session["submit_message"] + "</h3>");
+        <script type="text/javascript">
+                $(function () {
+                    $('.error-mesage').delay(500).fadeIn('normal', function () {
+                        $(this).delay(2500).fadeOut();
+                    });
+                });
+        </script>
+        Session["submit_message"] = null;
+    }
+}
+<h3>Book List</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">Bookid</th>
+            <th scope="col">Image</th>
+            <th scope="col">Book Name</th>
+            <th scope="col">Link</th>
+            <th scope="col">Author</th>
+            <th scope="col">IsDeleted</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in list)
+        {
+            <tr style="@if (item.isDeleted == true) { @Html.Raw("background-color:" +  "#f2dede")}">
+                <th> @item.BookId.Trim() </th>
+                <td>
+                    <img src="~/Content/BookImage/@item.Image.Replace('-',' ')" class="thumbnail" alt="Alternate Text" />
+                </td>
+                <td> @item.Name</td>
+                <td> <a href="@Request.Url.GetLeftPart(UriPartial.Authority)@item.Link/@item.Name.Replace(' ' , '-')">@Request.Url.GetLeftPart(UriPartial.Authority)@item.Link</a></td>
+                <td> @item.Author</td>
+                <td> @item.isDeleted</td>
+                <td>
+                    <a class="btn btn-success" href="@Url.Action("Update","Book",new { bookid = item.BookId.Trim()})">Update</a>
+                    @if (item.isDeleted == false)
+                    {
+                        <a class="btn btn-danger" name="@item.BookId" href="@Url.Action("Delete","Book",new { bookid = item.BookId.Trim()})">Delete</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-success" name="@item.BookId" href="@Url.Action("Restore","Book",new { bookid = item.BookId.Trim()})">Restore</a>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a class="btn btn-success" href="@Url.Action("Add","Book")">Add book</a>
+<a class="btn btn-success">Import book</a>
+<a class="btn btn-success">Export book</a>
