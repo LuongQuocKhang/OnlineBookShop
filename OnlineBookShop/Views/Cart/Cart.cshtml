@@ -2,4 +2,154 @@
 @{
     ViewBag.Title = "Cart";
     var cart = (List<CartDetails>)ViewBag.CartDetails;
+    var book = (List<Book>)ViewBag.BookList;
+
+    double Total = 0;
+    foreach (var item in cart)
+    {
+        var bookprice = book.FirstOrDefault(x => x.BookId == item.BookId).Price;
+        Total += bookprice.Value * item.Quantity;
+    }
 }
+<style>
+    img {
+        width: 100px;
+        height: 100px;
+        margin: 5px;
+    }
+
+    .margin {
+        margin-left: 16px;
+    }
+
+    .button {
+        width: 40px;
+        height: 26px;
+        padding: 0;
+        border: solid black 1px;
+    }
+</style>
+<script src="~/Assets/vendor/jquery/jquery.min.js"></script>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel">
+            <div class="panel panel-heading">
+                <h3>Giỏ hàng</h3>
+            </div>
+            <div class="panel panel-body">
+                @{
+                    foreach (var item in cart)
+                    {
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <img src="~/Content/BookImage/@book.FirstOrDefault(x => x.BookId == item.BookId).Image.Replace('-', ' ')" alt="Alternate Text" class="thumbnail" />
+                                </td>
+                                <td>
+                                    <div class="margin">
+                                        <h5>@book.FirstOrDefault(x => x.BookId == item.BookId).Name</h5>
+                                        <h5>Tác giả :<a href="#">@book.FirstOrDefault(x => x.BookId == item.BookId).Author</a></h5>
+                                        <h5>Công ty : <a href="#">@book.FirstOrDefault(x => x.BookId == item.BookId).Company</a></h5>
+                                        <a href="#" class="margin">Xóa</a>
+                                        <a href="#" class="margin">Để mua sau</a>
+                                    </div>
+                                </td>
+                                <td class="tdmargin">
+                                    <div class="margin">
+                                        <h5> @book.FirstOrDefault(x => x.BookId == item.BookId).Price </h5>
+                                        <h5 class="fa-underline"> @book.FirstOrDefault(x => x.BookId == item.BookId).Price </h5>
+                                        <div class="border-1"> <h5>- 30%</h5> </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <button class="btn form-control button" id="btnDecrease_@item.BookId.Trim()">-</button>
+                                        <input class="form" style="width: 30px;text-align: center;" id="@item.BookId.Trim()" value="@item.Quantity" min="1" max="100" type="text" pattern="[0-9]" />
+                                        <button class="btn form-control button" id="btnIncrese_@item.BookId.Trim()">+</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <script>
+                            $(document).ready(function () {
+                                 $("#@item.BookId.Trim()").keydown(function (e) {
+                                    // Allow: backspace, delete, tab, escape, enter and .
+                                    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+                                        // Allow: Ctrl+A, Command+A
+                                        (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                                        // Allow: home, end, left, right, down, up
+                                        (e.keyCode >= 35 && e.keyCode <= 40)) {
+                                        // let it happen, don't do anything
+                                        return;
+                                    }
+                                    // Ensure that it is a number and stop the keypress
+                                    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                                        e.preventDefault();
+                                    }
+                                    if (parseInt($("#@item.BookId.Trim()").val()) > 100) {
+                                        $("#@item.BookId.Trim()").val(parseInt(0));
+                                    }
+                                });
+                                $("#btnIncrese_@item.BookId.Trim()").on('click', function () {
+                                    var input = $('#@item.BookId.Trim()');
+                                    var num = parseInt(input.val()) + 1;
+                                    if (num < 100) {
+                                        input.val(num);
+
+                                    }
+                                    else {
+                                        input.val(99);
+                                    }
+                                });
+                                $("#btnDecrease_@item.BookId.Trim()").on('click', function () {
+                                var input = $('#@item.BookId.Trim()');
+                                    var num = parseInt(input.val()) - 1;
+                                    if (num > 0) {
+                                        input.val(num);
+                                    }
+                                    if (num > 100) {
+                                        input.val(99);
+                                    }
+                                });
+                            })
+                        </script>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3> Thanh toán</h3>
+            </div>
+            <div class="panel panel-body">
+                <div margin>
+                    <h4> Tạm tính : @Total đ</h4>
+                    <h4> Phí giao hàng : 10000đ</h4>
+                    <h4> Thành tiền : @Total đ</h4>
+                    <h5> (Đã bao gồm VAT)</h5>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="margin" style="margin-top: 10px;">
+                <button class="btn btn-danger">
+                    Tiến hàng đặt hàng
+                </button>
+                <button class="btn btn-success">
+                    Gửi quà tặng
+                </button>
+            </div>
+
+            <div class="form-group margin">
+                <h3>
+                    Mã giảm giá / Quà tặng
+                </h3>
+                <input type="Text" name="name" value="" />
+                <button class="btn btn-danger">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>

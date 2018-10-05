@@ -26,17 +26,25 @@
     .panel-body {
         background-color: #FFF;
     }
+
     .button {
         width: 40px;
         height: 26px;
-        padding: 0; 
+        padding: 0;
     }
 </style>
+<script src="~/Assets/vendor/jquery/jquery.min.js"></script>
 <div class="panel">
+    <h3 class='success-mesage font-green-sharp' style='display: none;font-size: 20px;color: #009614!important;font-weight: bold;'>
+        Cập nhật giỏ hàng thành công
+    </h3>
+    <h3 class='error-mesage font-green-sharp' style='display: none;font-size: 20px;color: #009614!important;font-weight: bold;'>
+        Lỗi xảy ra khi cập nhật giỏ hàng !!
+    </h3>
     <div class="row panel-body">
         <div class="col-md-6 col-xs-6 col-sm-6">
             <a href="@book.Link/@book.Name.Replace(' ', '-')" class="thumbnail">
-                <img src="~/Content/BookImage/@book.Image.Replace('-',' ')" alt="@book.Name" />
+                <img src="~/Content/BookImage/@book.Image.Replace('-', ' ')" alt="@book.Name" />
             </a>
         </div>
         <div class="col-md-6 col-xs-6 col-sm-6">
@@ -66,10 +74,10 @@
                             </p>
                         </div>
                         <div class="form-group">
-                            <button class="btn form-control button" >-</button>
-                            <input  class="form" style="width: 30px;text-align: center;" value="1" min="1" max="100" type="text" pattern= "[0-9]"/>
-                            <button class="btn form-control button">+</button>
-                            <button class="btn btn-danger">Chọn mua</button>
+                            <button class="btn form-control button" id="btnDecrease">-</button>
+                            <input class="form" style="width: 30px;text-align: center;" id="inputQuantity" value="1" min="1" max="100" type="text" pattern="[0-9]" />
+                            <button class="btn form-control button" id="btnIncrese">+</button>
+                            <button class="btn btn-danger" id="btnBuy">Chọn mua</button>
                         </div>
                     </div>
                 </div>
@@ -139,7 +147,7 @@
                     {
                         <div class="col-xs-6 col-md-3 col-sm-3 ebook">
                             <a href="@item.Link/@item.Name.Replace(' ', '-')" class="thumbnail">
-                                <img src="~/Content/BookImage/@item.Image.Replace('-',' ')" class="img-rounded" alt="Alternate Text" />
+                                <img src="~/Content/BookImage/@item.Image.Replace('-', ' ')" class="img-rounded" alt="Alternate Text" />
                             </a>
                             <h5 class="text-center">
                                 <a href="@item.Link/@item.Name.Replace(' ', '-')">@item.Name</a>
@@ -151,15 +159,33 @@
         </div>
     </div>
 </div>
+<script src="~/Scripts/EventBuy.js"></script>
 <script>
-                //$(document).ready(function () {
-                //    $('#btnIncrese').on('click', function () {
-                //        var input = $('#inputQuantity');
-                //        input.val = input.val + 1;
-                //    })
-                //    $('#btnDecrease').on('click', function () {
-                //        var input = $('#inputQuantity');
-                //        input.val = input.val - 1;
-                //    })
-                //})
+    $(document).ready(function () {
+
+        $('#btnBuy').on('click', function () {
+            $.ajax(
+                {
+                    url: "@Request.Url.GetLeftPart(UriPartial.Authority)" + "@Url.Action("AddToCart", "Info")",
+                    method: "POST",
+                    data: {"bookid" : '@book.BookId' , "Quantity": $("#inputQuantity").val()},
+                    success: function (response) {
+                        if (response != null && response.result == true) {
+                            $(function () {
+                                $('.success-mesage').delay(500).fadeIn('normal', function () {
+                                    $(this).delay(2500).fadeOut();
+                                });
+                            });
+                        }
+                        else {
+                            $(function () {
+                                $('.error-mesage').delay(500).fadeIn('normal', function () {
+                                    $(this).delay(2500).fadeOut();
+                                });
+                            });
+                        }
+                    }
+                })
+        });
+    })
 </script>

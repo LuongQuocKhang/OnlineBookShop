@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace OnlineBookShop.Controllers
 {
@@ -22,26 +23,24 @@ namespace OnlineBookShop.Controllers
                 if ( user != null )
                 {
                     Cart cart = db.Cart.FirstOrDefault(x => x.UserName == user.UserName);
-                    if (cart != null)
+                    int cartid = cart.CartId;
+                    var cartdetail = db.CartDetail.Where(x => x.CartId == cartid).ToList();
+                    ViewBag.CartDetails = cartdetail;
+
+                    List<Book> listbook = new List<Book>();
+                    foreach (var item in cartdetail)
                     {
-                        int cartid = cart.CartId;
-                        ViewBag.CartDetails = db.CartDetail.Where(x => x.CartId == cartid).ToList();
+                        var book = db.Books.FirstOrDefault(x => x.BookId == item.BookId);
+                        listbook.Add(book);
                     }
-                    else
-                    {
-                        cart = new Cart();
-                        cart.UserName = user.UserName;
-                        cart.TotalPrice = 0;
-                        db.Cart.Add(cart);
-                        db.SaveChanges();
-                    }
+                    ViewBag.BookList = listbook;
+                    return View();
                 }
                 else
                 {
-                    
+                    return new RedirectToRouteResult(new RouteValueDictionary { { "Controller", "User" }, { "Action", "Login" } });
                 }
             }
-            return View();
         }
     }
 }

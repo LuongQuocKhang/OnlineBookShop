@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /OnlineBookShop/Content/BookImage
+/OnlineBookShop/Content/Advertisement/hoisach.jpg

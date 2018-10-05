@@ -161,6 +161,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1579,6 +1580,7 @@
     <Content Include="Assets\vendor\jquery\jquery.min.js" />
     <Content Include="Assets\vendor\jquery\jquery.slim.js" />
     <Content Include="Assets\vendor\jquery\jquery.slim.min.js" />
+    <Content Include="Content\Advertisement\hoisach.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1669,6 +1671,7 @@
     <Content Include="Areas\Admin\Views\Book\Update.cshtml" />
     <Content Include="Areas\Admin\Views\Book\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\EventBuy.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -1693,7 +1696,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Info\BookDetails.cshtml" />
     <Content Include="Views\Cart\Cart.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

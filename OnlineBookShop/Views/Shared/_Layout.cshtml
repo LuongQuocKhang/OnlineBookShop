@@ -35,11 +35,11 @@
                             var user = Session["USER_SESSION"];
                             if (user != null)
                             {
-                                <li>@Html.ActionLink("Đăng xuất", "Logout", "Home")</li>
+                                <li>@Html.ActionLink("Đăng xuất", "Logout", "User")</li>
                             }
                             else
                             {
-                                <li>@Html.ActionLink("Đăng nhập", "Login", "Home")</li>
+                                <li>@Html.ActionLink("Đăng nhập", "Login", "User")</li>
                             }
                         }
                         <li>
