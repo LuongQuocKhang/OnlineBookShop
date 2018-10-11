@@ -28,11 +28,15 @@
         padding: 0;
         border: solid black 1px;
     }
+    .marginbutton{
+        margin: 2px;
+        width: 200px;
+    }
 </style>
 <script src="~/Assets/vendor/jquery/jquery.min.js"></script>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="panel">
             <div class="panel panel-heading">
                 <h3>Giỏ hàng</h3>
@@ -51,52 +55,45 @@
                                         <h5>@book.FirstOrDefault(x => x.BookId == item.BookId).Name</h5>
                                         <h5>Tác giả :<a href="#">@book.FirstOrDefault(x => x.BookId == item.BookId).Author</a></h5>
                                         <h5>Công ty : <a href="#">@book.FirstOrDefault(x => x.BookId == item.BookId).Company</a></h5>
-                                        <a href="#" class="margin">Xóa</a>
+                                        <a href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Action("DeleteCart","Cart",new { bookid = item.BookId})" class="margin">Xóa</a>
                                         <a href="#" class="margin">Để mua sau</a>
                                     </div>
                                 </td>
                                 <td class="tdmargin">
-                                    <div class="margin">
+                                    <div class="margin" style="float: right;">
                                         <h5> @book.FirstOrDefault(x => x.BookId == item.BookId).Price </h5>
                                         <h5 class="fa-underline"> @book.FirstOrDefault(x => x.BookId == item.BookId).Price </h5>
                                         <div class="border-1"> <h5>- 30%</h5> </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="form-group">
+                                    <div class="form-group" style="float: right;">
                                         <button class="btn form-control button" id="btnDecrease_@item.BookId.Trim()">-</button>
-                                        <input class="form" style="width: 30px;text-align: center;" id="@item.BookId.Trim()" value="@item.Quantity" min="1" max="100" type="text" pattern="[0-9]" />
+                                        <input class="form" style="width: 30px;text-align: center;" id="@item.BookId.Trim()" disabled value="@item.Quantity" min="1" max="100" type="text" pattern="[0-9]" />
                                         <button class="btn form-control button" id="btnIncrese_@item.BookId.Trim()">+</button>
                                     </div>
                                 </td>
                             </tr>
                         </table>
                         <script>
-                            $(document).ready(function () {
-                                 $("#@item.BookId.Trim()").keydown(function (e) {
-                                    // Allow: backspace, delete, tab, escape, enter and .
-                                    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-                                        // Allow: Ctrl+A, Command+A
-                                        (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-                                        // Allow: home, end, left, right, down, up
-                                        (e.keyCode >= 35 && e.keyCode <= 40)) {
-                                        // let it happen, don't do anything
-                                        return;
-                                    }
-                                    // Ensure that it is a number and stop the keypress
-                                    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-                                        e.preventDefault();
-                                    }
-                                    if (parseInt($("#@item.BookId.Trim()").val()) > 100) {
-                                        $("#@item.BookId.Trim()").val(parseInt(0));
-                                    }
-                                });
+                            $(document).ready(function () {          
                                 $("#btnIncrese_@item.BookId.Trim()").on('click', function () {
                                     var input = $('#@item.BookId.Trim()');
                                     var num = parseInt(input.val()) + 1;
                                     if (num < 100) {
                                         input.val(num);
-
+                                        $.ajax(
+                                            {
+                                                url: "@Request.Url.GetLeftPart(UriPartial.Authority)" + "@Url.Action("ChangeQuantity", "Cart")",
+                                                method: "POST",
+                                                data: { "bookid": '@item.BookId.Trim()', "action" : 'Increase'},
+                                                success: function (response) {
+                                                    if (response != null && response.result == true) {
+                                                        location.reload(true);
+                                                    }
+                                                }
+                                            }
+                                        )
                                     }
                                     else {
                                         input.val(99);
@@ -107,6 +104,18 @@
                                     var num = parseInt(input.val()) - 1;
                                     if (num > 0) {
                                         input.val(num);
+                                        $.ajax(
+                                            {
+                                                url: "@Request.Url.GetLeftPart(UriPartial.Authority)" + "@Url.Action("ChangeQuantity", "Cart")",
+                                                method: "POST",
+                                                data: { "bookid": '@item.BookId.Trim()', "action" : 'Decrease'},
+                                                success: function (response) {
+                                                    if (response != null && response.result == true) {
+                                                        location.reload(true);
+                                                    }
+                                                }
+                                            }
+                                        )
                                     }
                                     if (num > 100) {
                                         input.val(99);
@@ -119,7 +128,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="panel">
             <div class="panel-heading">
                 <h3> Thanh toán</h3>
@@ -127,28 +136,30 @@
             <div class="panel panel-body">
                 <div margin>
                     <h4> Tạm tính : @Total đ</h4>
-                    <h4> Phí giao hàng : 10000đ</h4>
+                    <h4> Phí giao hàng : Miễn phí</h4>
                     <h4> Thành tiền : @Total đ</h4>
-                    <h5> (Đã bao gồm VAT)</h5>
+                    <h5>(Đã bao gồm VAT)</h5>
                 </div>
             </div>
         </div>
         <div class="panel">
             <div class="margin" style="margin-top: 10px;">
-                <button class="btn btn-danger">
+                <button class="btn btn-danger marginbutton">
                     Tiến hàng đặt hàng
                 </button>
-                <button class="btn btn-success">
+                <button class="btn btn-success marginbutton">
                     Gửi quà tặng
                 </button>
             </div>
 
             <div class="form-group margin">
-                <h3>
+                <h4>
                     Mã giảm giá / Quà tặng
-                </h3>
-                <input type="Text" name="name" value="" />
-                <button class="btn btn-danger">Xác nhận</button>
+                </h4>
+                <div class="form-group">
+                    <input type="Text" name="name" value="" style="margin-bottom: 2px; width: 100px;" placeholder="Nhập ở đây." />
+                    <button class="btn btn-danger" style="height: 28px; padding-top: 5px;">Xác nhận</button>
+                </div>
             </div>
         </div>
     </div>
