@@ -1,4 +1,5 @@
 ﻿using OnlineBookShop.Core;
+using OnlineBookShop.Core.Interfaces;
 using OnlineBookShop.Core.Lib;
 using OnlineBookShop.Core.Models;
 using System;
@@ -11,13 +12,15 @@ namespace OnlineBookShop.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IGetBook _BookService;
+        public HomeController(IGetBook BookService)
+        {
+            this._BookService = BookService;
+        }
         // GET: Home
         public ActionResult Index()
         {
-            using ( var db = new DBContext())
-            {
-                ViewBag.BookList = db.Books.Where(x =>x.isDeleted == false).ToList();
-            }
+            ViewBag.BookList = _BookService.GetAllBook();
             return View();
         }
     }

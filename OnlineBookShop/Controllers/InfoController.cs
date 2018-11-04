@@ -1,4 +1,5 @@
 ﻿using OnlineBookShop.Core;
+using OnlineBookShop.Core.Interfaces;
 using OnlineBookShop.Core.Lib;
 using OnlineBookShop.Core.Models;
 using System;
@@ -12,6 +13,13 @@ namespace OnlineBookShop.Controllers
     [RoutePrefix("Info")]
     public class InfoController : Controller
     {
+        private readonly IBookrepository _BookService;
+        private readonly IGetBook _GetBookService;
+        public InfoController(IBookrepository bookservice , IGetBook GetBookService)
+        {
+            _BookService = bookservice;
+            _GetBookService = GetBookService;
+        }
         // GET: Info
         [HttpGet]
         [ActionName("BookDetails")]
@@ -21,14 +29,12 @@ namespace OnlineBookShop.Controllers
             using (var db = new DBContext())
             {
                 var name = bookname.Replace('-', ' ');
-                var book = db.Books.ToArray().FirstOrDefault(x => x.Name.Equals(name));
+                var book = _GetBookService.GetBookByName(name);
 
                 if (book != null)
                 {
                     ViewBag.Book = book;
-                    ViewBag.SameAuthorBook = db.Books.ToArray().Where(x => x.Author.ToLower().Trim() == book.Author.ToLower().Trim()
-                                                                      && x.BookId != book.BookId
-                                                                      && x.isDeleted == false).ToList();
+                    ViewBag.SameAuthorBook = _GetBookService.GetBookByAuthor(book.Author.Trim());
                 }
             }
             return View();

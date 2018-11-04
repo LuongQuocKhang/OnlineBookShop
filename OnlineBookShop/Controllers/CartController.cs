@@ -79,7 +79,7 @@ namespace OnlineBookShop.Controllers
                     db.SaveChanges();
                 }
             }
-            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("Cart");
         }
     }
 }
